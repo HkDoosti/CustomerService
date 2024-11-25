@@ -16,7 +16,6 @@
         <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.11" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
         <PackageReference Include="Moq" Version="4.20.72" />
-        <PackageReference Include="NUnit" Version="4.2.2" />
         <PackageReference Include="SpecFlow.Plus.LivingDocPlugin" Version="3.9.57" />
         <PackageReference Include="FluentAssertions" Version="6.12.2" />
         <PackageReference Include="xunit" Version="2.9.2" />

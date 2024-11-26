@@ -12,6 +12,11 @@ using Moq;
 using System.Net;
 using System.Net.Http.Json;
 using Xunit;
+using Microsoft.Extensions.Options;
+using System.Text.Json;
+using System;
+using System.Text;
+using System.Security.Policy;
 
 namespace CustomerService.AcceptanceTests.IntegrationTests;
 
@@ -80,14 +85,21 @@ public class CustomerControllerIntegrationTests : IClassFixture<WebApplicationFa
             (Customer: fetchedCustomer.Value);
 
 
-        var editResponse = await _client.PostAsJsonAsync("/api/Customer/Edit", editCustomerRequest);
+        var editResponse = await _client.PutAsJsonAsync("/api/Customer/Edit", editCustomerRequest);
         editResponse.StatusCode.Should().Be(HttpStatusCode.Created);
-
-
 
         // Step 4: Delete the customer  
         DeleteCustomerCommandRequest deleteCustomerCommandRequest = new DeleteCustomerCommandRequest(Id: createdCustomer.Value.Id);
-        var deleteResponse = await _client.PostAsJsonAsync("/api/Customer/Delete", deleteCustomerCommandRequest);
+
+        HttpRequestMessage request = new HttpRequestMessage
+        {
+            Content = new StringContent(JsonSerializer.Serialize(deleteCustomerCommandRequest), Encoding.UTF8, "application/json"),
+            Method = HttpMethod.Delete,
+            RequestUri = new Uri("https://localhost:7045/api/Customer/Delete")
+             
+        };
+        var deleteResponse = await _client.SendAsync(request);
+        
         deleteResponse.StatusCode.Should().Be(HttpStatusCode.Created);
 
         //// Verify deletion  

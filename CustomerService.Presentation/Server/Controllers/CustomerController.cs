@@ -23,7 +23,7 @@ public class CustomerController(ISender sender) : BaseController(sender)
         }
         return CreatedAtAction(nameof(Add), new { IsSuccess = res.IsSuccess }, res);
     }
-    [HttpPost]
+    [HttpDelete]
     public async Task<IActionResult> Delete(DeleteCustomerCommandRequest deleteCustomer, CancellationToken cancellationToken)
     {
         var res = await _sender.Send(deleteCustomer, cancellationToken);
@@ -33,7 +33,7 @@ public class CustomerController(ISender sender) : BaseController(sender)
         }
         return CreatedAtAction(nameof(Delete), new { IsSuccess = res.IsSuccess }, res);
     }
-    [HttpPost]
+    [HttpPut]
     public async Task<IActionResult> Edit(EditCustomerCommandRequest editCustomer, CancellationToken cancellationToken)
     {
         var res = await _sender.Send(editCustomer, cancellationToken);
